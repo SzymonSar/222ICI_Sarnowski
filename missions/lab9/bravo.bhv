@@ -1,0 +1,39 @@
+//----------------------------------------------
+// bravo.bhv
+//----------------------------------------------
+
+initialize   DEPLOY = false
+initialize   RETURN = false
+
+set MODE = ACTIVE {
+  DEPLOY = true
+  RETURN = false
+} INACTIVE
+
+
+Behavior = Zad08S
+{
+  name          = chase_abe
+  pwt          = 100
+  condition     = MODE == ACTIVE
+  updates       = CHASE_UPDATES
+
+  contact_name  = alpha   
+  chase_speed   = 3.0    
+  detect_range  = 60
+  capture_range = 5
+}
+
+Behavior = BHV_Waypoint
+{
+  name       = search_pattern
+  pwt        = 20
+  condition  = MODE == ACTIVE
+  updates    = SEARCH_UPDATES
+  
+
+  speed      = 1.5
+  order      = reverse
+  cycle      = true
+  point      = 50,-50 : 50,50 : -50,50 : -50,-50
+}

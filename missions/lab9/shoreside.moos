@@ -1,0 +1,85 @@
+//-------------------------------------------------
+// FILE: shoreside.moos
+//-------------------------------------------------
+ServerHost = localhost
+ServerPort = 9000
+Community  = shoreside
+
+ProcessConfig = ANTLER
+{
+  MSBetweenLaunches = 200
+
+  Run = MOOSDB          @ NewConsole = false
+  Run = pShare          @ NewConsole = false
+  Run = pMarineViewer   @ NewConsole = false
+}
+
+ProcessConfig = MOOSDB
+{
+  AppTick   = 4
+  CommsTick = 4
+}
+
+ProcessConfig = pShare
+{
+  AppTick   = 4
+  CommsTick = 4
+
+  input = route = localhost:9000 
+
+  // Wysylanie komend z GUI do obu pojazdow
+  output = src_name=DEPLOY, route=localhost:9001:9002  
+  output = src_name=RETURN, route=localhost:9001:9002  
+  output = src_name=MOOS_MANUAL_OVERRIDE, route=localhost:9001:9002
+
+  // CROSS-ROUTING POZYCJI: 
+  // Pozycja Alphy idzie do Bravo (9002)
+  output = src_name=NAV_X_ALPHA, route=localhost:9002
+  output = src_name=NAV_Y_ALPHA, route=localhost:9002
+  
+  // Pozycja Bravo idzie do Alphy (9001)
+  output = src_name=NAV_X_BRAVO, route=localhost:9001
+  output = src_name=NAV_Y_BRAVO, route=localhost:9001
+}
+
+//------------------------------------------
+// pMarineViewer config block (Skopiowany z Twojego pojazdu)
+ProcessConfig = pMarineViewer
+{
+  AppTick    = 4
+  CommsTick  = 4
+
+  tiff_file            = forrest19.tif
+  set_pan_x            = -90
+  set_pan_y            = -280
+  zoom                 = 0.65
+  vehicle_shape_scale  = 1.5
+  hash_delta           = 50
+  hash_shade           = 0.22
+  hash_viewable        = true
+  trails_point_size    = 1
+
+  appcast_height       = 75
+  appcast_width        = 30
+  appcast_viewable     = true
+  appcast_color_scheme = indigo
+  nodes_font_size      = xlarge
+  procs_font_size      = xlarge
+  appcast_font_size    = large
+  
+  right_context[return] = DEPLOY=true
+  right_context[return] = MOOS_MANUAL_OVERRIDE=false
+  right_context[return] = RETURN=false
+
+  scope  = SUMMARY
+  scope  = RETURN
+  scope  = WPT_STAT
+
+  button_one = DEPLOY # DEPLOY=true
+  button_one = MOOS_MANUAL_OVERRIDE=false # RETURN=false
+  button_two = RETURN # RETURN=true
+
+  action  = MENU_KEY=deploy # DEPLOY = true # RETURN = false
+  action+ = MENU_KEY=deploy # MOOS_MANUAL_OVERRIDE=false
+  action  = RETURN=true
+}

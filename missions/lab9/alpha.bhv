@@ -1,0 +1,36 @@
+//----------------------------------------------
+// alpha.bhv
+//----------------------------------------------
+
+initialize   DEPLOY = false
+initialize   RETURN = false
+
+
+set MODE = ACTIVE {
+  DEPLOY = true
+  RETURN = false
+} INACTIVE
+
+
+Behavior = Zad08U
+{
+  name         = evade_ben
+  pwt          = 100
+  condition    = MODE == ACTIVE
+  updates      = EVADE_UPDATES
+
+  contact_name = bravo  
+  evade_range  = 20
+  evade_speed  = 2.5
+}
+
+
+Behavior = BHV_Waypoint
+{
+  name       = return
+  pwt        = 50
+  condition  = RETURN == true
+  speed      = 2.0
+  radius     = 3
+  point      = 0,0
+}

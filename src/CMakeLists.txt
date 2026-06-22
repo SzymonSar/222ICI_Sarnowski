@@ -10,7 +10,10 @@
 # Add the libraries in the current directory to the include path
 #============================================================================
 FILE(GLOB LOCAL_LIBRARY_DIRS ./lib_*)
-INCLUDE_DIRECTORIES(${LOCAL_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES(${LOCAL_LIBRARY_DIRS}
+${IVP_INCLUDE_DIRS}
+  ${MOOS_INCLUDE_DIRS}
+  )
 
 #============================================================================
 # List the subdirectories to build...
@@ -18,7 +21,15 @@ INCLUDE_DIRECTORIES(${LOCAL_LIBRARY_DIRS})
 ADD_SUBDIRECTORY(lib_behaviors-test)
 ADD_SUBDIRECTORY(pExampleApp)
 ADD_SUBDIRECTORY(pXRelayTest)
-
+ADD_SUBDIRECTORY(pZad01)
+ADD_SUBDIRECTORY(pZad02)
+ADD_SUBDIRECTORY(pZad03)
+ADD_SUBDIRECTORY(pZad04)
+ADD_SUBDIRECTORY(pZad05)
+ADD_SUBDIRECTORY(pZad06)
+ADD_SUBDIRECTORY(pZad07)
+ADD_SUBDIRECTORY(PZad08U)
+ADD_SUBDIRECTORY(PZad08S)
 ##############################################################################
 #                           END of CMakeLists.txt
 ##############################################################################

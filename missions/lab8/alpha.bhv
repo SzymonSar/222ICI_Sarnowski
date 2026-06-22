@@ -1,0 +1,41 @@
+initialize   DEPLOY = false
+initialize   RETURN = false
+initialize   ROLES_ASSIGNED = false
+
+set MODE = ACTIVE {
+  DEPLOY = true
+  RETURN = false
+} INACTIVE
+
+set MODE = LOITERING {
+  MODE = ACTIVE
+  ROLES_ASSIGNED = true
+} 
+
+
+set MODE = TRANSITING {
+  MODE = ACTIVE
+  ROLES_ASSIGNED = false
+}
+
+Behavior = BHV_Waypoint
+{
+  name      = waypt_transit
+  pwt       = 100
+  condition = MODE == TRANSITING
+  updates   = WPT_UPDATES
+  
+  speed     = 2.0
+  radius    = 5
+  point     = 0,0  
+}
+
+Behavior = BHV_Loiter
+{
+  name      = role_loiter
+  pwt       = 100
+  condition = MODE == LOITERING
+  updates   = LOITER_UPDATES
+  
+  speed     = 1.2
+}
